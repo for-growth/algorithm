@@ -3,28 +3,38 @@ import java.io.*;
 
 
 public class BOJ_1316 {
-    public static void main(String[] args) {
-        BufferedReader br = new BufferedReader(new InputStreanReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreanWriter(System.out));
-        int rpt = Integer.paresInt(br.readline());
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
+        int rpt = Integer.parseInt(br.readLine());
         int answer = 0;
+        boolean flag;
 
          for(int r = 0; r < rpt; r++) {
+             flag = true;
              String word = br.readLine();
              int left = 0;
              int right = 0;
-             Map<Char, Integer> store = new TreeMap()<>;
+             Set<Character> store = new HashSet<>();
              while(right < word.length()) {
                  char ch = word.charAt(left);
-
-                 if(!store.containsKey(ch)) {
-                     store.put(ch, 1);
+                 if(store.contains(ch)) {
+                     flag = false;
+                     break;
                  }
+                 store.add(ch);
                  while(right < word.length() && word.charAt(right) == ch) {
                      right += 1;
-                     store.put(ch, store.get(ch) + 1);
                  }
+                 left = right;
+             }
+             if(flag) {
+                 answer += 1;
              }
          }
+         sb.append(answer);
+         bw.write(sb.toString());
+         bw.flush();
     }
 }
